@@ -161,5 +161,128 @@
             $this->assertEquals($test_course, $result);
         }
 
+        function test_getStudents()
+        {
+            //Arrange
+            $name = "Wesley Pong";
+            $enrollment_date = "2015-09-09";
+            $id = 1;
+            $test_student = new Student($name, $enrollment_date, $id);
+            $test_student->save();
+
+            $name2 = "Billy Bodega";
+            $enrollment_date2 = "2015-09-09";
+            $id2 = 1;
+            $test_student2 = new Student($name2, $enrollment_date2, $id2);
+            $test_student2->save();
+
+            $course_name = "History";
+            $id2 = 2;
+            $course_number = 'HIST:101';
+            $test_course = new Course($course_name, $course_number, $id2);
+            $test_course->save();
+
+
+
+            //Act
+
+            $test_course->addStudent($test_student->getId());
+            $test_course->addStudent($test_student2->getId());
+
+            //Assert
+            $this->assertEquals($test_course->getStudents(), [$test_student, $test_student2]);
+        }
+
+        function test_deleteStudent()
+        {
+            //Arrange
+            $name = "Wesley Pong";
+            $enrollment_date = "2015-09-09";
+            $id = 1;
+            $test_student = new Student($name, $enrollment_date, $id);
+            $test_student->save();
+
+            $name2 = "Billy Bodega";
+            $enrollment_date2 = "2015-09-09";
+            $id2 = 1;
+            $test_student2 = new Student($name2, $enrollment_date2, $id2);
+            $test_student2->save();
+
+            $course_name = "History";
+            $id2 = 2;
+            $course_number = 'HIST:101';
+            $test_course = new Course($course_name, $course_number, $id2);
+            $test_course->save();
+
+            $test_course->addStudent($test_student->getId());
+            $test_course->addStudent($test_student2->getId());
+
+            //Act
+            $test_course->deleteStudent($test_student->getId());
+            $result = $test_course->getStudents();
+
+            //Assert
+            $this->assertEquals([$test_student2], $result);
+        }
+
+        function test_deleteAllStudents()
+        {
+            //Arrange
+            $name = "Wesley Pong";
+            $enrollment_date = "2015-09-09";
+            $id = 1;
+            $test_student = new Student($name, $enrollment_date, $id);
+            $test_student->save();
+
+            $name2 = "Billy Bodega";
+            $enrollment_date2 = "2015-09-09";
+            $id2 = 1;
+            $test_student2 = new Student($name2, $enrollment_date2, $id2);
+            $test_student2->save();
+
+            $course_name = "History";
+            $id2 = 2;
+            $course_number = 'HIST:101';
+            $test_course = new Course($course_name, $course_number, $id2);
+            $test_course->save();
+
+            $test_course->addStudent($test_student->getId());
+            $test_course->addStudent($test_student2->getId());
+
+            //Act
+            $test_course->deleteAllStudents($test_student->getId());
+            $result = $test_course->getStudents();
+
+            //Assert
+            $this->assertEquals([], $result);
+        }
+
+        function testUpdateName()
+        {
+            //Arrange
+            $course_name = "Psychology 101";
+            $course_number = "PSY101";
+            $test_course = new Course($course_name, $course_number);
+            $test_course->save();
+            $new_name = "Psychology 101A";
+            //Act
+            $test_course->updateCourseName($new_name);
+            //Assert
+            $this->assertEquals("Psychology 101A", $test_course->getCourseName());
+        }
+        function testUpdateCourseNumber()
+        {
+            //Arrange
+            $name = "Psychology 101";
+            $course_number = "PSY101";
+            $test_course = new Course($name, $course_number);
+            $test_course->save();
+            $new_course_number = "PSY101A";
+            //Act
+            $test_course->updateCourseNumber($new_course_number);
+            //Assert
+            $this->assertEquals("PSY101A", $test_course->getCourseNumber());
+        }
+
     }
  ?>

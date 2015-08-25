@@ -3,13 +3,13 @@
     class Student
     {
         private $name;
-        private $enroll_date;
+        private $enrollment_date;
         private $id;
 
-        function __construct($name, $enroll_date, $id = null)
+        function __construct($name, $enrollment_date, $id = null)
         {
             $this->name = $name;
-            $this->enroll_date = $enroll_date;
+            $this->enrollment_date = $enrollment_date;
             $this->id = $id;
         }
 
@@ -23,14 +23,14 @@
             return $this->name;
         }
 
-        function setEnrollDate($new_enroll_date)
+        function setEnrollmentDate($new_enrollment_date)
         {
-            $this->enroll_date = (string) $new_enroll_date;
+            $this->enrollment_date = (string) $new_enrollment_date;
         }
 
-        function getEnrollDate()
+        function getEnrollmentDate()
         {
-            return $this->enroll_date;
+            return $this->enrollment_date;
         }
 
         function getId()
@@ -40,8 +40,8 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO students (name, enroll_date)
-            VALUES ('{$this->getName()}', '{$this->getEnrollDate()}')");
+            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date)
+            VALUES ('{$this->getName()}', '{$this->getEnrollmentDate()}')");
             $this->id = $GLOBALS['DB']->lastInsertID();
         }
 
@@ -51,9 +51,9 @@
             $students = array();
             foreach($returned_students as $student) {
                 $name = $student['name'];
-                $enroll_date = $student['enroll_date'];
+                $enrollment_date = $student['enrollment_date'];
                 $id = $student['id'];
-                $new_student = new Student($name, $enroll_date, $id);
+                $new_student = new Student($name, $enrollment_date, $id);
                 array_push($students, $new_student);
             }
             return $students;
@@ -76,5 +76,59 @@
             }
             return $found_student;
         }
+
+        function addCourse($course_id)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students_courses (course_id, student_id)
+                VALUES ({$course_id}, {$this->id})");
+        }
+
+        function getCourses()
+        {
+            $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM
+                students JOIN students_courses ON (students.id = students_courses.student_id)
+                JOIN courses ON (courses.id = students_courses.course_id)
+                WHERE students.id = {$this->getId()}");
+
+            $courses = array();
+            foreach($returned_courses as $course)
+            {
+                $name = $course['course_name'];
+                $course_number = $course['course_number'];
+                $id = $course['id'];
+                $new_course = new Course($name, $course_number,$id);
+                array_push($courses, $new_course);
+            }
+
+            return $courses;
+        }
+
+        function deleteCourse($course_id)
+        {
+            $GLOBALS['DB']->exec("DELETE FROM students_courses WHERE
+                course_id = {$course_id} AND student_id = {$this->id}");
+        }
+
+        function deleteAllCourses()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM students_courses WHERE student_id = {$this->id}");
+        }
+
+        //Update student name
+        function updateName($new_name)
+        {
+            $GLOBALS['DB']->exec("UPDATE students SET name = '{$new_name}'
+                WHERE id = {$this->getId()}");
+            $this->setName($new_name);
+        }
+        //Update student enrollment date
+        function updateEnrollmentDate($new_date)
+        {
+            $GLOBALS['DB']->exec("UPDATE students SET enrollment_date = {$new_date}
+                WHERE id = {$this->getId()}");
+            $this->setEnrollmentDate($new_date);
+        }
+
+
     }
  ?>
