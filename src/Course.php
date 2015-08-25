@@ -12,32 +12,40 @@
             $this->course_number = $course_number;
             $this->id = $id;
         }
+        
         function setCourseName($new_course_name)
         {
-            $this->course_name = (string) $new_course_name;
+            $this->course_
+            name = (string) $new_course_name;
         }
+        
         function getCourseName()
         {
             return $this->course_name;
         }
+        
         function setCourseNumber($new_course_number)
         {
             $this->course_number = (string) $new_course_number;
         }
+        
         function getCourseNumber()
         {
             return $this->course_number;
         }
+        
         function getId()
         {
             return $this->id;
         }
+        
         function save()
         {
             $GLOBALS['DB']->exec("INSERT INTO courses (course_name, course_number)
             VALUES ('{$this->getCourseName()}', '{$this->getCourseNumber()}')");
             $this->id = $GLOBALS['DB']->lastInsertID();
         }
+        
         static function getAll()
         {
             $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses;");
@@ -51,10 +59,12 @@
             }
             return $courses;
         }
+        
         static function deleteAll()
         {
             $GLOBALS ['DB']->exec("DELETE FROM courses;");
         }
+        
         static function find($search_id)
         {
             $found_course = null;

@@ -162,7 +162,7 @@
         }
 
 // Haven't created getCourses yet!!!
-        function testGetCourses()
+        function test_getCourses()
         {
             //Arrange
             $name = "Wesley Pong";
