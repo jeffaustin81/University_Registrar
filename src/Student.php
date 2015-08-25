@@ -3,13 +3,13 @@
     class Student
     {
         private $name;
-        private $date;
+        private $enroll_date;
         private $id;
 
-        function __construct($name, $date, $id = null)
+        function __construct($name, $enroll_date, $id = null)
         {
             $this->name = $name;
-            $this->date = $date;
+            $this->enroll_date = $enroll_date;
             $this->id = $id;
         }
         function setName($new_name)
@@ -20,13 +20,40 @@
         {
             return $this->name;
         }
-        function setDate($new_date)
+        function setEnrollDate($new_enroll_date)
         {
-            $this->date = (string) $new_date;
+            $this->enroll_date = (string) $new_enroll_date;
         }
-        function getDate()
+        function getEnrollDate()
         {
-            return $this->date;
+            return $this->enroll_date;
         }
+        function getId()
+        {
+            return $this->id;
+        }
+        function save()
+        {
+            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date)
+            VALUES ('{$this->getName()}', '{$this->getEnrollDate()}')");
+            $this->id = $GLOBALS['DB']->lastInsertID();
+        }
+        static function getAll()
+        {
+            $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
+            $students = array();
+            foreach($returned_students as $student) {
+                $name = $student['name'];
+                $enroll_date = $student['enrollment_date'];
+                $id = $student['id'];
+                $new_student = new Student($name, $enroll_date, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
+        }
+        static function deleteAll()
+    {
+        $GLOBALS ['DB']->exec("DELETE FROM students;");
+    }
     }
  ?>
