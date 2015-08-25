@@ -142,5 +142,28 @@
             $this->assertEquals([], $result);
         }
 
+        function test_find()
+        {
+            //Arrange
+            // $course_name = "Hank Airpair";
+            // $id = null;
+            // $test_course = new Course($course_name, $id);
+            // $test_course->save();
+            $name = "Wesley Pong";
+            $enroll_date = "2015-04-05";
+            $id = 1;
+            $test_student = new Student($name, $enroll_date, $id);
+            $test_student->save();
+            $name2 = "Jon Airpair";
+            $enroll_date2 = "2015-09-09";
+            $id = 2;
+            $test_student2 = new Student($name2, $enroll_date2, $id);
+            $test_student2->save();
+            //Act
+            $result = Student::find($test_student->getId());
+            //Assert
+            $this->assertEquals($test_student, $result);
+        }
+
     }
  ?>

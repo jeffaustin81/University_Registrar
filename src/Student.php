@@ -34,7 +34,7 @@
         }
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO students (name, enrollment_date)
+            $GLOBALS['DB']->exec("INSERT INTO students (name, enroll_date)
             VALUES ('{$this->getName()}', '{$this->getEnrollDate()}')");
             $this->id = $GLOBALS['DB']->lastInsertID();
         }
@@ -44,7 +44,7 @@
             $students = array();
             foreach($returned_students as $student) {
                 $name = $student['name'];
-                $enroll_date = $student['enrollment_date'];
+                $enroll_date = $student['enroll_date'];
                 $id = $student['id'];
                 $new_student = new Student($name, $enroll_date, $id);
                 array_push($students, $new_student);
@@ -52,8 +52,20 @@
             return $students;
         }
         static function deleteAll()
-    {
-        $GLOBALS ['DB']->exec("DELETE FROM students;");
-    }
+        {
+            $GLOBALS ['DB']->exec("DELETE FROM students;");
+        }
+        static function find($search_id)
+        {
+            $found_student = null;
+            $students = Student::getAll();
+            foreach($students as $student) {
+                $student_id = $student->getId();
+                if ($student_id == $search_id) {
+                    $found_student = $student;
+                }
+            }
+            return $found_student;
+        }
     }
  ?>
