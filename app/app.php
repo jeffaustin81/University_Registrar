@@ -1,4 +1,6 @@
 <?php
+
+    // This is the initial setup for the app.php
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Course.php";
     require_once __DIR__."/../src/Student.php";
@@ -6,7 +8,7 @@
     $app = new Silex\Application();
     $app['debug'] = true;
 
-    $server = 'mysql:host=localhost;dbname=to_do';
+    $server = 'mysql:host=localhost;dbname=university_registrar';
     $username = 'root';
     $password = 'root';
 

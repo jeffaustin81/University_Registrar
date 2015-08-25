@@ -145,10 +145,6 @@
         function test_find()
         {
             //Arrange
-            // $course_name = "Hank Airpair";
-            // $id = null;
-            // $test_course = new Course($course_name, $id);
-            // $test_course->save();
             $name = "Wesley Pong";
             $enroll_date = "2015-04-05";
             $id = 1;
@@ -163,6 +159,37 @@
             $result = Student::find($test_student->getId());
             //Assert
             $this->assertEquals($test_student, $result);
+        }
+
+// Haven't created getCourses yet!!!
+        function testGetCourses()
+        {
+            //Arrange
+            $name = "Wesley Pong";
+            $enroll_date = "2015-09-09";
+            $id = 1;
+            $test_student = new Student($name, $enroll_date, $id);
+            $test_student->save();
+
+            $course_name = "History";
+            $id2 = 2;
+            $course_number = 'HIST:101';
+            $test_course = new Course($course_name, $course_number, $id2);
+            $test_course->save();
+
+            $course_name2 = "Algebra";
+            $id3 = 3;
+            $course_number2 = 'MTH:111';
+            $test_course2 = new Course($course_name2, $course_number2, $id3);
+            $test_course2->save();
+
+            //Act
+// Haven't created addCourse yet!!!
+            $test_student->addCourse($test_course);
+            $test_student->addCourse($test_course2);
+
+            //Assert
+            $this->assertEquals($test_student->getCourses(), [$test_course, $test_course2]);
         }
 
     }
