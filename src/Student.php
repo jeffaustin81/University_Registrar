@@ -20,5 +20,13 @@
         {
             return $this->name;
         }
+        function setDate($new_date)
+        {
+            $this->date = (string) $new_date;
+        }
+        function getDate()
+        {
+            return $this->date;
+        }
     }
  ?>

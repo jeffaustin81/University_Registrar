@@ -64,7 +64,7 @@
             //Assert
             $this->assertEquals($date, $result);
         }
-        function test_setName()
+        function test_setDate()
         {
             //Arrange
             $name = "Ben";
